@@ -3,53 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Charity Events</title>
+    <title>Helping Hands Charity Events</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
-<footer>
-    <div class="footer-content">
-        <div>
-            <h3>Helping Hands Foundation</h3>
-            <p>Connecting communities through meaningful charity events.</p>
-        </div>
-
-        <div>
-            <p>Email: contact@helpinghands.org</p>
-            <p>© 2026 Helping Hands Foundation</p>
-        </div>
-    </div>
-</footer>
-
 <body>
 
-<nav class="navbar">
-    <a class="brand" href="index.html">Helping Hands</a>
+    <!-- Shared navigation component -->
+    <div id="shared-nav"></div>
 
-    <div class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="search.html">Search Events</a>
-    </div>
-</nav>
+    <!-- Shared header component -->
+    <div id="shared-header"></div>
 
-<header>
-    <h1>Helping Hands Foundation</h1>
-    <p>
-        Bringing people together through meaningful charity events
-        and supporting communities in need.
-    </p>
+    <!-- Main page content -->
+    <main>
+        <h2>Upcoming Events</h2>
 
-    <a class="hero-button" href="search.html">Explore Events</a>
-</header>
+        <div id="event-list">
+            <p>Loading events...</p>
+        </div>
+    </main>
 
-<main>
-    <h2>Upcoming Events</h2>
+    <!-- Shared footer component -->
+    <div id="shared-footer"></div>
 
-    <div id="event-list">
-        <p>Loading events...</p>
-    </div>
-</main>
+    <script src="common.js"></script>
+    <script src="home.js"></script>
 
-<script src="home.js"></script>
 </body>
 </html>
