@@ -1,0 +1,60 @@
+
+<section class="event-detail-page">
+
+  @if (loading()) {
+    <p>Loading event details...</p>
+
+  } @else if (errorMessage()) {
+    <p role="alert">{{ errorMessage() }}</p>
+    <a routerLink="/search">Back to Search</a>
+
+  } @else if (event(); as item) {
+
+    <article class="event-detail-card">
+
+      <h1>{{ item.event_name }}</h1>
+
+      <p>{{ item.description }}</p>
+
+      <p>
+        <strong>Category:</strong>
+        {{ item.category_name }}
+      </p>
+
+      <p>
+        <strong>Organisation:</strong>
+        {{ item.organisation_name }}
+      </p>
+
+      <p>
+        <strong>Date:</strong>
+        {{ item.event_date | date:'mediumDate' }}
+      </p>
+
+      <p>
+        <strong>City:</strong>
+        {{ item.city }}
+      </p>
+
+      <p>
+        <strong>Location:</strong>
+        {{ item.location }}
+      </p>
+
+      <p>
+        <strong>Price:</strong>
+        ${{ item.price }}
+      </p>
+
+      <button type="button" disabled>
+        Registration Coming Soon
+      </button>
+
+      <p>
+        <a routerLink="/search">Back to Search</a>
+      </p>
+
+    </article>
+  }
+
+</section>

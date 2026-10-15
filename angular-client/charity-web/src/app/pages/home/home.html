@@ -1,0 +1,31 @@
+
+<section class="home">
+  <h1>Helping Hands Foundation</h1>
+
+  <p>
+    Supporting communities through meaningful charity events.
+  </p>
+
+  <h2>Upcoming Charity Events</h2>
+
+  @if (loading) {
+    <p>Loading events...</p>
+  } @else if (errorMessage) {
+    <p role="alert">{{ errorMessage }}</p>
+  } @else {
+    <div class="event-list">
+      @for (event of events; track event.event_id) {
+        <article class="event-card">
+          <h3>{{ event.event_name }}</h3>
+
+          <p>Category: {{ event.category_name }}</p>
+          <p>City: {{ event.city }}</p>
+          <p>Date: {{ event.event_date | date:'mediumDate' }}</p>
+          <p>Organisation: {{ event.organisation_name }}</p>
+        </article>
+      } @empty {
+        <p>No upcoming events available.</p>
+      }
+    </div>
+  }
+</section>
