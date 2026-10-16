@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 export interface CharityEvent {
   event_id: number;
   event_name: string;
-  description: string;
+  description: string | null;
   event_date: string;
   city: string;
   location: string;
@@ -27,6 +27,14 @@ export interface CharityEvent {
 export interface EventCategory {
   category_id: number;
   category_name: string;
+}
+
+/**
+ * Represents an organisation.
+ */
+export interface Organisation {
+  organisation_id: number;
+  name: string;
 }
 
 /**
@@ -50,7 +58,44 @@ export interface RegistrationResponse {
 }
 
 /**
- * Provides HTTP communication with the Charity Events Express API.
+ * Represents a registration stored in MySQL.
+ */
+export interface EventRegistration {
+  registration_id: number;
+  event_id: number;
+  full_name: string;
+  email: string;
+  phone: string | null;
+  ticket_quantity: number;
+  registration_date: string;
+}
+
+/**
+ * Represents data submitted when creating or editing an event.
+ */
+export interface AdminEventData {
+  event_name: string;
+  description: string;
+  event_date: string;
+  city: string;
+  location: string;
+  price: number;
+  is_active: boolean;
+  category_id: number;
+  organisation_id: number;
+}
+
+/**
+ * Represents the response after an administrator
+ * creates, updates or deletes an event.
+ */
+export interface AdminEventResponse {
+  message: string;
+  event_id: number;
+}
+
+/**
+ * Handles HTTP communication with the Express API.
  */
 @Injectable({
   providedIn: 'root'
@@ -82,9 +127,19 @@ export class EventService {
   }
 
   /**
+   * Retrieves all organisations.
+   * @returns Observable containing organisations.
+   */
+  getOrganisations(): Observable<Organisation[]> {
+    return this.http.get<Organisation[]>(
+      `${this.apiUrl}/organisations`
+    );
+  }
+
+  /**
    * Searches charity events using optional filters.
    * @param filters - Search criteria.
-   * @returns Observable containing matching charity events.
+   * @returns Observable containing matching events.
    */
   searchEvents(filters: {
     city?: string;
@@ -121,7 +176,7 @@ export class EventService {
   }
 
   /**
-   * Retrieves one charity event by its unique ID.
+   * Retrieves a charity event by its ID.
    * @param id - Event identifier.
    * @returns Observable containing event details.
    */
@@ -134,15 +189,83 @@ export class EventService {
   /**
    * Submits a participant registration for a charity event.
    * @param data - Registration form information.
-   * @returns Observable containing the registration confirmation.
+   * @returns Observable containing registration confirmation.
    */
   registerForEvent(
     data: RegistrationData
   ): Observable<RegistrationResponse> {
-
     return this.http.post<RegistrationResponse>(
       `${this.apiUrl}/registrations`,
       data
+    );
+  }
+
+  /**
+   * Retrieves registrations for a specific event.
+   * The backend returns the newest registrations first.
+   * @param id - Event identifier.
+   * @returns Observable containing registration records.
+   */
+  getEventRegistrations(
+    id: number
+  ): Observable<EventRegistration[]> {
+    return this.http.get<EventRegistration[]>(
+      `${this.apiUrl}/events/${id}/registrations`
+    );
+  }
+
+  /**
+   * Retrieves all events for the administrator dashboard.
+   * Includes past and inactive events.
+   * @returns Observable containing all charity events.
+   */
+  getAdminEvents(): Observable<CharityEvent[]> {
+    return this.http.get<CharityEvent[]>(
+      `${this.apiUrl}/admin/events`
+    );
+  }
+
+  /**
+   * Creates a new charity event.
+   * @param data - New event details.
+   * @returns Observable containing the new event ID.
+   */
+  createEvent(
+    data: AdminEventData
+  ): Observable<AdminEventResponse> {
+    return this.http.post<AdminEventResponse>(
+      `${this.apiUrl}/admin/events`,
+      data
+    );
+  }
+
+  /**
+   * Updates an existing charity event.
+   * @param id - Event identifier.
+   * @param data - Updated event details.
+   * @returns Observable containing update confirmation.
+   */
+  updateEvent(
+    id: number,
+    data: AdminEventData
+  ): Observable<AdminEventResponse> {
+    return this.http.put<AdminEventResponse>(
+      `${this.apiUrl}/admin/events/${id}`,
+      data
+    );
+  }
+
+  /**
+   * Deletes a charity event.
+   * The Express API rejects deletion if registrations exist.
+   * @param id - Event identifier.
+   * @returns Observable containing deletion confirmation.
+   */
+  deleteEvent(
+    id: number
+  ): Observable<AdminEventResponse> {
+    return this.http.delete<AdminEventResponse>(
+      `${this.apiUrl}/admin/events/${id}`
     );
   }
 }

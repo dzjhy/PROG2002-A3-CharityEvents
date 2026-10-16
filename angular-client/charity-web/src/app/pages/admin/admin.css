@@ -1,0 +1,106 @@
+
+.admin-page {
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.admin-header {
+  margin-bottom: 30px;
+}
+
+.admin-header h1 {
+  margin-bottom: 10px;
+}
+
+button {
+  cursor: pointer;
+  padding: 10px 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: #f5f5f5;
+}
+
+button:hover:not(:disabled) {
+  background: #e5e5e5;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.admin-form-section,
+.events-section {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 30px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.checkbox-group input {
+  width: auto;
+}
+
+.form-actions,
+.action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+th,
+td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+th {
+  background: #f5f5f5;
+}
+
+.registration-section {
+  margin-top: 30px;
+}
+
+.error-message {
+  color: #b91c1c;
+  margin: 15px 0;
+}
+
+.success-message {
+  color: #15803d;
+  margin: 15px 0;
+}

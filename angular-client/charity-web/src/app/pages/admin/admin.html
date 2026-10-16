@@ -1,0 +1,275 @@
+
+<section class="admin-page">
+
+  <header class="admin-header">
+    <h1>Admin Dashboard</h1>
+    <p>Manage charity events and registrations.</p>
+
+    <button type="button" (click)="startCreate()">
+      Add New Event
+    </button>
+  </header>
+
+  @if (errorMessage()) {
+    <p class="error-message" role="alert">
+      {{ errorMessage() }}
+    </p>
+  }
+
+  @if (successMessage()) {
+    <p class="success-message" role="status">
+      {{ successMessage() }}
+    </p>
+  }
+
+  <!-- Create and Edit form -->
+  @if (showForm()) {
+
+    <section class="admin-form-section">
+
+      <h2>
+        {{ editingId() === null ? 'Create Event' : 'Edit Event' }}
+      </h2>
+
+      <form #eventForm="ngForm" (ngSubmit)="saveEvent()">
+
+        <div class="form-group">
+          <label for="eventName">Event Name</label>
+          <input
+            id="eventName"
+            name="event_name"
+            [(ngModel)]="form.event_name"
+            maxlength="100"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea
+            id="description"
+            name="description"
+            [(ngModel)]="form.description"
+            rows="4"
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="eventDate">Event Date</label>
+          <input
+            id="eventDate"
+            name="event_date"
+            type="date"
+            [(ngModel)]="form.event_date"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="city">City</label>
+          <input
+            id="city"
+            name="city"
+            [(ngModel)]="form.city"
+            maxlength="100"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="location">Location</label>
+          <input
+            id="location"
+            name="location"
+            [(ngModel)]="form.location"
+            maxlength="150"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="price">Price ($)</label>
+          <input
+            id="price"
+            name="price"
+            type="number"
+            [(ngModel)]="form.price"
+            min="0"
+            step="0.01"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="category">Category</label>
+          <select
+            id="category"
+            name="category_id"
+            [(ngModel)]="form.category_id"
+            required
+          >
+            <option [ngValue]="0">Select Category</option>
+
+            @for (category of categories(); track category.category_id) {
+              <option [ngValue]="category.category_id">
+                {{ category.category_name }}
+              </option>
+            }
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="organisation">Organisation</label>
+          <select
+            id="organisation"
+            name="organisation_id"
+            [(ngModel)]="form.organisation_id"
+            required
+          >
+            <option [ngValue]="0">Select Organisation</option>
+
+            @for (organisation of organisations(); track organisation.organisation_id) {
+              <option [ngValue]="organisation.organisation_id">
+                {{ organisation.name }}
+              </option>
+            }
+          </select>
+        </div>
+
+        <div class="form-group checkbox-group">
+          <label>
+            <input
+              type="checkbox"
+              name="is_active"
+              [(ngModel)]="form.is_active"
+            >
+            Active Event
+          </label>
+        </div>
+
+        <div class="form-actions">
+          <button
+            type="submit"
+            [disabled]="eventForm.invalid || saving() ||
+              form.category_id === 0 || form.organisation_id === 0"
+          >
+            {{ saving() ? 'Saving...' : 'Save Event' }}
+          </button>
+
+          <button type="button" (click)="cancelForm()">
+            Cancel
+          </button>
+        </div>
+
+      </form>
+
+      <!-- Registrations for the event being edited -->
+      @if (editingId() !== null) {
+
+        <section class="registration-section">
+          <h3>Event Registrations</h3>
+
+          @if (registrationsLoading()) {
+            <p>Loading registrations...</p>
+
+          } @else if (registrationError()) {
+            <p role="alert">{{ registrationError() }}</p>
+
+          } @else if (registrations().length === 0) {
+            <p>No registrations for this event.</p>
+
+          } @else {
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Tickets</th>
+                    <th>Registered At</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  @for (registration of registrations(); track registration.registration_id) {
+                    <tr>
+                      <td>{{ registration.registration_id }}</td>
+                      <td>{{ registration.full_name }}</td>
+                      <td>{{ registration.email }}</td>
+                      <td>{{ registration.ticket_quantity }}</td>
+                      <td>{{ registration.registration_date }}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          }
+        </section>
+      }
+
+    </section>
+  }
+
+  <!-- Events management list -->
+  <section class="events-section">
+    <h2>All Charity Events</h2>
+
+    @if (loading()) {
+      <p>Loading events...</p>
+
+    } @else {
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Event</th>
+              <th>Date</th>
+              <th>City</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (event of events(); track event.event_id) {
+              <tr>
+                <td>{{ event.event_id }}</td>
+                <td>
+                  <a [routerLink]="['/event', event.event_id]">
+                    {{ event.event_name }}
+                  </a>
+                </td>
+                <td>{{ event.event_date }}</td>
+                <td>{{ event.city }}</td>
+                <td>
+                  {{ event.is_active ? 'Active' : 'Inactive' }}
+                </td>
+                <td class="action-buttons">
+                  <button type="button" (click)="startEdit(event)">
+                    Edit
+                  </button>
+
+                  <button
+                    type="button"
+                    (click)="deleteEvent(event)"
+                    [disabled]="deleting()"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="6">No events found.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </section>
+
+</section>

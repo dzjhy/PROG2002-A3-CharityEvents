@@ -1,8 +1,12 @@
+
 import { Routes } from '@angular/router';
+
 import { Home } from './pages/home/home';
 import { Search } from './pages/search/search';
 import { EventDetail } from './pages/event-detail/event-detail';
 import { Registration } from './pages/registration/registration';
+import { Admin } from './pages/admin/admin';
+
 export const routes: Routes = [
   {
     path: '',
@@ -16,11 +20,12 @@ export const routes: Routes = [
     path: 'event/:id',
     component: EventDetail
   },
- 
   {
-  path: 'register/:id',
-  component: Registration
-}
-
-
+    path: 'register/:id',
+    component: Registration
+  },
+  {
+    path: 'admin',
+    component: Admin
+  }
 ];
