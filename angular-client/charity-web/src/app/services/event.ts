@@ -4,7 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 /**
- * Represents a charity event returned by the API.
+ * Represents a charity event returned by the Express API.
  */
 export interface CharityEvent {
   event_id: number;
@@ -22,7 +22,7 @@ export interface CharityEvent {
 }
 
 /**
- * Represents an event category returned by the API.
+ * Represents an event category.
  */
 export interface EventCategory {
   category_id: number;
@@ -30,7 +30,27 @@ export interface EventCategory {
 }
 
 /**
- * Provides API operations for charity events and categories.
+ * Represents registration details submitted by a participant.
+ */
+export interface RegistrationData {
+  event_id: number;
+  full_name: string;
+  email: string;
+  phone: string;
+  ticket_quantity: number;
+}
+
+/**
+ * Represents the response returned after registration.
+ */
+export interface RegistrationResponse {
+  message: string;
+  registration_id: number;
+  event_id: number;
+}
+
+/**
+ * Provides HTTP communication with the Charity Events Express API.
  */
 @Injectable({
   providedIn: 'root'
@@ -38,11 +58,12 @@ export interface EventCategory {
 export class EventService {
 
   private http = inject(HttpClient);
+
   private apiUrl = 'http://localhost:3000';
 
   /**
-   * Retrieves active upcoming charity events.
-   * @returns Observable containing the event list.
+   * Retrieves all active upcoming charity events.
+   * @returns Observable containing charity events.
    */
   getEvents(): Observable<CharityEvent[]> {
     return this.http.get<CharityEvent[]>(
@@ -51,8 +72,8 @@ export class EventService {
   }
 
   /**
-   * Retrieves available event categories.
-   * @returns Observable containing the category list.
+   * Retrieves all available event categories.
+   * @returns Observable containing event categories.
    */
   getCategories(): Observable<EventCategory[]> {
     return this.http.get<EventCategory[]>(
@@ -62,8 +83,8 @@ export class EventService {
 
   /**
    * Searches charity events using optional filters.
-   * @param filters - Search conditions.
-   * @returns Observable containing matching events.
+   * @param filters - Search criteria.
+   * @returns Observable containing matching charity events.
    */
   searchEvents(filters: {
     city?: string;
@@ -98,14 +119,30 @@ export class EventService {
       { params }
     );
   }
+
   /**
- * Retrieves a specific charity event by its ID.
- * @param id - Unique event identifier.
- * @returns Observable containing event details.
- */
+   * Retrieves one charity event by its unique ID.
+   * @param id - Event identifier.
+   * @returns Observable containing event details.
+   */
   getEventById(id: number): Observable<CharityEvent> {
     return this.http.get<CharityEvent>(
       `${this.apiUrl}/events/${id}`
-   );
+    );
+  }
+
+  /**
+   * Submits a participant registration for a charity event.
+   * @param data - Registration form information.
+   * @returns Observable containing the registration confirmation.
+   */
+  registerForEvent(
+    data: RegistrationData
+  ): Observable<RegistrationResponse> {
+
+    return this.http.post<RegistrationResponse>(
+      `${this.apiUrl}/registrations`,
+      data
+    );
   }
 }

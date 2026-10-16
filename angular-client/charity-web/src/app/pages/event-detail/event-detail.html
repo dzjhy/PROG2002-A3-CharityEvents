@@ -46,9 +46,9 @@
         ${{ item.price }}
       </p>
 
-      <button type="button" disabled>
-        Registration Coming Soon
-      </button>
+      <a [routerLink]="['/register', item.event_id]">
+  Register for This Event
+</a>
 
       <p>
         <a routerLink="/search">Back to Search</a>
