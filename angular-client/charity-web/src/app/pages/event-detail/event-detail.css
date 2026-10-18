@@ -173,3 +173,137 @@
     min-width: 620px;
   }
 }
+
+/* ===== Weather API Card ===== */
+
+.weather-section {
+  max-width: 1100px;
+  margin: 32px auto;
+}
+
+.weather-header {
+  margin-bottom: 20px;
+}
+
+.weather-label {
+  display: inline-block;
+  margin-bottom: 8px;
+  color: #26875d;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.weather-header h2 {
+  margin: 0 0 8px;
+  color: #173b2e;
+  font-size: 26px;
+  font-weight: 800;
+}
+
+.weather-header p {
+  margin: 0;
+  color: #77877d;
+  font-size: 14px;
+}
+
+/* Main weather card */
+
+.weather-card {
+  padding: 28px;
+  background: linear-gradient(120deg, #e8f5eb, #f8fcf9);
+  border: 1px solid #d9e9de;
+  border-radius: 18px;
+  box-shadow: 0 6px 22px rgba(0, 60, 30, 0.04);
+}
+
+.weather-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.weather-city {
+  margin: 0 0 8px;
+  color: #194b36;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.weather-description {
+  margin: 0;
+  color: #577263;
+  font-size: 16px;
+}
+
+.weather-temperature {
+  color: #176b4a;
+  font-size: 54px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+/* Humidity and wind speed */
+
+.weather-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 25px;
+}
+
+.weather-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 12px;
+}
+
+.weather-stat span {
+  color: #74877a;
+  font-size: 13px;
+}
+
+.weather-stat strong {
+  color: #235c40;
+  font-size: 19px;
+}
+
+/* Weather attribution */
+
+.weather-note {
+  margin: 24px 0 0;
+  color: #728276;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.weather-note a {
+  color: #176b4a;
+  text-decoration: underline;
+}
+
+.weather-error {
+  color: #8b5a23;
+  background: #fff8e8;
+}
+
+/* Mobile responsive */
+
+@media (max-width: 600px) {
+  .weather-card {
+    padding: 20px;
+  }
+
+  .weather-temperature {
+    font-size: 42px;
+  }
+
+  .weather-stats {
+    grid-template-columns: 1fr;
+  }
+}
