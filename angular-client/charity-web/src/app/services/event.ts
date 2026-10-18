@@ -104,7 +104,7 @@ export class EventService {
 
   private http = inject(HttpClient);
 
-  private apiUrl = 'http://localhost:3000';
+  private apiUrl = 'https://24833206.it.scu.edu.au/api';
 
   /**
    * Retrieves all active upcoming charity events.

@@ -1,31 +1,134 @@
 
 <section class="home">
-  <h1>Helping Hands Foundation</h1>
 
-  <p>
-    Supporting communities through meaningful charity events.
-  </p>
+  <div class="hero">
+    <div class="hero-content">
+      <span class="hero-label">
+        COMMUNITY • COMPASSION • CHANGE
+      </span>
 
-  <h2>Upcoming Charity Events</h2>
+      <h1>
+        Small Acts.<br>
+        <span>Big Impact.</span>
+      </h1>
 
-  @if (loading) {
-    <p>Loading events...</p>
-  } @else if (errorMessage) {
-    <p role="alert">{{ errorMessage }}</p>
-  } @else {
-    <div class="event-list">
-      @for (event of events; track event.event_id) {
-        <article class="event-card">
-          <h3>{{ event.event_name }}</h3>
+      <p>
+        Join Helping Hands Foundation in making a
+        difference. Discover local charity events,
+        connect with your community, and be part
+        of something meaningful.
+      </p>
 
-          <p>Category: {{ event.category_name }}</p>
-          <p>City: {{ event.city }}</p>
-          <p>Date: {{ event.event_date | date:'mediumDate' }}</p>
-          <p>Organisation: {{ event.organisation_name }}</p>
-        </article>
-      } @empty {
-        <p>No upcoming events available.</p>
-      }
+      <a routerLink="/search" class="hero-button">
+        Explore Charity Events
+        <span>→</span>
+      </a>
     </div>
-  }
+
+    <div class="hero-decoration" aria-hidden="true">
+      <div class="circle circle-one"></div>
+      <div class="circle circle-two"></div>
+      <div class="heart-symbol">♥</div>
+    </div>
+  </div>
+
+  <div class="home-container">
+
+    <div class="section-heading">
+      <div>
+        <span class="section-label">
+          MAKE A DIFFERENCE
+        </span>
+
+        <h2>Upcoming Charity Events</h2>
+
+        <p>
+          Find an event that inspires you and
+          take the first step toward positive change.
+        </p>
+      </div>
+
+      <a routerLink="/search" class="view-all">
+        View All Events →
+      </a>
+    </div>
+
+    @if (loading()) {
+      <div class="status-box">
+        <p>Loading charity events...</p>
+      </div>
+    } @else if (errorMessage()) {
+      <div class="status-box error-box" role="alert">
+        {{ errorMessage() }}
+      </div>
+    } @else {
+      <div class="event-grid">
+       @for (event of events(); track event.event_id) {
+
+          <article class="event-card">
+
+            <div class="card-top">
+              <span class="category-badge">
+                {{ event.category_name }}
+              </span>
+
+              <span class="card-heart" aria-hidden="true">
+                ♥
+              </span>
+            </div>
+
+            <div class="card-content">
+              <h3>{{ event.event_name }}</h3>
+
+              <div class="event-details">
+                <p>
+                  <span class="detail-icon">⌖</span>
+                  {{ event.city }}
+                </p>
+
+                <p>
+                  <span class="detail-icon">▦</span>
+                  {{ event.event_date | date:'mediumDate' }}
+                </p>
+
+                <p>
+                  <span class="detail-icon">♧</span>
+                  {{ event.organisation_name }}
+                </p>
+              </div>
+
+              <a
+                [routerLink]="['/event', event.event_id]"
+                class="event-button">
+                View Event Details
+                <span>→</span>
+              </a>
+            </div>
+
+          </article>
+
+        } @empty {
+          <div class="status-box">
+            <p>No upcoming events available.</p>
+          </div>
+        }
+      </div>
+    }
+
+  </div>
+
+  <div class="mission-banner">
+    <h2>Together, We Can Make a Difference.</h2>
+
+    <p>
+      Every event is an opportunity to support
+      a cause, meet new people, and create
+      lasting change in our communities.
+    </p>
+
+    <a routerLink="/search">
+      Find Your Next Event →
+    </a>
+  </div>
+
 </section>

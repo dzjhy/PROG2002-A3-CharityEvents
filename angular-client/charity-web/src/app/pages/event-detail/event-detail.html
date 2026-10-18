@@ -2,14 +2,17 @@
 <section class="event-detail-page">
 
   @if (loading()) {
+
     <p>Loading event details...</p>
 
   } @else if (errorMessage()) {
+
     <p role="alert">{{ errorMessage() }}</p>
     <a routerLink="/search">Back to Search</a>
 
   } @else if (event(); as item) {
 
+    <!-- Event information -->
     <article class="event-detail-card">
 
       <h1>{{ item.event_name }}</h1>
@@ -46,15 +49,172 @@
         ${{ item.price }}
       </p>
 
-      <a [routerLink]="['/register', item.event_id]">
-  Register for This Event
-</a>
+      <p>
+        <a [routerLink]="['/register', item.event_id]">
+          Register for This Event
+        </a>
+      </p>
 
       <p>
         <a routerLink="/search">Back to Search</a>
       </p>
 
     </article>
+    
+<!-- Current weather information -->
+<section class="weather-section">
+
+  <div class="weather-header">
+    <div>
+      <span class="weather-label">
+        LIVE WEATHER
+      </span>
+
+      <h2>Weather at Event Location</h2>
+
+      <p>
+        Current conditions in the event city.
+      </p>
+    </div>
+  </div>
+
+  @if (weatherLoading()) {
+
+    <div class="weather-card">
+      <p>Loading current weather...</p>
+    </div>
+
+  } @else if (weatherError()) {
+
+    <div class="weather-card weather-error">
+      <p role="status">
+        {{ weatherError() }}
+      </p>
+    </div>
+
+  } @else if (weather(); as currentWeather) {
+
+    <div class="weather-card">
+
+      <div class="weather-main">
+
+        <div>
+          <p class="weather-city">
+            {{ currentWeather.city }}
+          </p>
+
+          <p class="weather-description">
+            {{ currentWeather.description }}
+          </p>
+        </div>
+
+        <div class="weather-temperature">
+          {{ currentWeather.temperature }}°C
+        </div>
+
+      </div>
+
+      <div class="weather-stats">
+
+        <div class="weather-stat">
+          <span>Humidity</span>
+          <strong>
+            {{ currentWeather.humidity }}%
+          </strong>
+        </div>
+
+        <div class="weather-stat">
+          <span>Wind Speed</span>
+          <strong>
+            {{ currentWeather.windSpeed }} km/h
+          </strong>
+        </div>
+
+      </div>
+
+      <p class="weather-note">
+        Current weather only, not a forecast for
+        the event date.
+        Data provided by
+        <a
+          href="https://open-meteo.com/"
+          target="_blank"
+          rel="noopener noreferrer">
+          Open-Meteo
+        </a>.
+      </p>
+
+    </div>
+
+  }
+
+</section>
+
+    <!-- Event registrations -->
+    <section class="registrations-section">
+
+      <h2>Event Registrations</h2>
+
+      @if (registrationsLoading()) {
+
+        <p>Loading registrations...</p>
+
+      } @else if (registrationsError()) {
+
+        <p role="alert">
+          {{ registrationsError() }}
+        </p>
+
+      } @else if (registrations().length === 0) {
+
+        <p>No registrations for this event yet.</p>
+
+      } @else {
+
+        <p>
+          Total Registrations:
+          {{ registrations().length }}
+        </p>
+
+        <div class="registrations-table-wrapper">
+
+          <table class="registrations-table">
+
+            <thead>
+              <tr>
+                <th>Registration ID</th>
+                <th>Participant</th>
+                <th>Tickets</th>
+                <th>Registration Date</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              @for (
+                registration of registrations();
+                track registration.registration_id
+              ) {
+
+                <tr>
+                  <td>{{ registration.registration_id }}</td>
+                  <td>{{ registration.full_name }}</td>
+                  <td>{{ registration.ticket_quantity }}</td>
+                  <td>
+                    {{ registration.registration_date | date:'medium' }}
+                  </td>
+                </tr>
+
+              }
+            </tbody>
+
+          </table>
+
+        </div>
+
+      }
+
+    </section>
+
   }
 
 </section>

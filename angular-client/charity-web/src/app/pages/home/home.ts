@@ -1,14 +1,19 @@
+
 import { DatePipe } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
-import { EventService, CharityEvent } from '../../services/event';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
+
+import {
+  EventService,
+  CharityEvent
+} from '../../services/event';
 
 /**
- * Home page component.
- * Retrieves upcoming charity events from the REST API.
+ * Displays upcoming charity events.
  */
 @Component({
   selector: 'app-home',
-  imports: [DatePipe],
+  imports: [DatePipe, RouterLink],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
@@ -16,33 +21,35 @@ export class Home implements OnInit {
 
   private eventService = inject(EventService);
 
-  events: CharityEvent[] = [];
-  loading = true;
-  errorMessage = '';
+  events = signal<CharityEvent[]>([]);
+  loading = signal(true);
+  errorMessage = signal('');
 
-  /**
-   * Loads charity events when the component starts.
-   * @returns void
-   */
   ngOnInit(): void {
     this.loadEvents();
   }
 
   /**
-   * Requests upcoming events from the backend API.
-   * @returns void
+   * Retrieves charity events from the REST API.
    */
   loadEvents(): void {
+
+    this.loading.set(true);
+    this.errorMessage.set('');
+
     this.eventService.getEvents().subscribe({
+
       next: (data: CharityEvent[]) => {
-        this.events = data;
-        this.loading = false;
+        this.events.set(data);
+        this.loading.set(false);
       },
+
       error: (error: unknown) => {
         console.error('Failed to load events:', error);
-        this.errorMessage = 'Unable to load events.';
-        this.loading = false;
+        this.errorMessage.set('Unable to load events.');
+        this.loading.set(false);
       }
+
     });
   }
 }

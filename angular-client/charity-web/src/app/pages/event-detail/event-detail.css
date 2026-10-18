@@ -1,0 +1,175 @@
+
+/* Event detail page */
+
+:host {
+  display: block;
+  min-height: 100vh;
+  background: #f7faf8;
+  color: #1d352b;
+}
+
+.event-detail-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 55px 28px 90px;
+}
+
+/* Event information */
+
+.event-detail-card {
+  padding: 38px 42px;
+  background: #ffffff;
+  border: 1px solid #e1ebe4;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(22, 65, 40, 0.055);
+}
+
+.event-detail-card h1 {
+  margin: 0 0 24px;
+  color: #153d32;
+  font-size: clamp(29px, 4vw, 42px);
+  line-height: 1.25;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.event-detail-card p {
+  margin: 15px 0;
+  color: #607467;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.event-detail-card strong {
+  color: #244d38;
+  font-weight: 700;
+}
+
+.event-detail-card a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  background: #1c7958;
+  border-radius: 10px;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.event-detail-card a:hover {
+  background: #145d42;
+  transform: translateY(-2px);
+}
+
+.event-detail-card p:last-child a {
+  background: #edf5ef;
+  color: #176347;
+}
+
+.event-detail-card p:last-child a:hover {
+  background: #dbece0;
+}
+
+/* Registrations section */
+
+.registrations-section {
+  margin-top: 35px;
+  padding: 32px;
+  background: #ffffff;
+  border: 1px solid #e1ebe4;
+  border-radius: 18px;
+  box-shadow: 0 6px 24px rgba(22, 65, 40, 0.045);
+}
+
+.registrations-section h2 {
+  margin: 0 0 20px;
+  color: #173b2e;
+  font-size: 26px;
+  font-weight: 800;
+}
+
+.registrations-section > p {
+  color: #687b70;
+  font-size: 14px;
+}
+
+/* Registration table */
+
+.registrations-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 22px;
+  border: 1px solid #e2ebe5;
+  border-radius: 12px;
+}
+
+.registrations-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+}
+
+.registrations-table thead {
+  background: #eaf5ee;
+}
+
+.registrations-table th {
+  padding: 16px 18px;
+  color: #27523b;
+  font-size: 13px;
+  font-weight: 800;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.registrations-table td {
+  padding: 15px 18px;
+  color: #53685a;
+  font-size: 14px;
+  border-top: 1px solid #edf1ed;
+}
+
+.registrations-table tbody tr:hover {
+  background: #f7fbf8;
+}
+
+.registrations-table tbody tr:nth-child(even) {
+  background: #fbfdfb;
+}
+
+/* Error messages */
+
+[role="alert"] {
+  padding: 15px 18px;
+  background: #fff2f2;
+  border: 1px solid #efcccc;
+  border-radius: 10px;
+  color: #a43f3f;
+}
+
+/* Responsive */
+
+@media (max-width: 650px) {
+  .event-detail-page {
+    padding: 30px 16px 60px;
+  }
+
+  .event-detail-card {
+    padding: 25px 22px;
+  }
+
+  .registrations-section {
+    padding: 22px 16px;
+  }
+
+  .registrations-section h2 {
+    font-size: 23px;
+  }
+
+  .registrations-table {
+    min-width: 620px;
+  }
+}
